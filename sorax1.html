@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .wheel-container {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ff0 0% 90deg,   /* Yellow */
+                #f00 90deg 180deg,  /* Red */
+                #00f 180deg 270deg, /* Blue */
+                #0f0 270deg 360deg  /* Green */
+            ), linear-gradient(#fff, #fff);
+            position: relative;
+            margin: 50px auto;
+            transform-origin: 50% 50%;
+            transform: rotate(0deg);
+            transition: transform 0.5s linear;
+        }
+
+        .inner-circle {
+            width: 200px; /* Increased size */
+            height: 200px; /* Increased size */
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wheel-container" id="wheel">
+        <div class="inner-circle"></div>
+    </div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+
+        function updateRotationDirection(event) {
+            const rect = wheel.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const distance = Math.sqrt(Math.pow(event.clientX - centerX, 2) + Math.pow(event.clientY - centerY, 2));
+
+            const rotationDirection = distance < 100 ? 1 : -1;
+
+            wheel.style.transform = `rotate(${rotationDirection * 180}deg)`;
+        }
+
+        document.addEventListener('mousemove', updateRotationDirection);
+    </script>
+</body>
+</html>
